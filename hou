@@ -1,0 +1,1039 @@
+<!DOCTYPE html>
+
+<html lang="zh-TW">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>✨ 國中理化學習挑戰營 ✨</title>
+
+    <style>
+
+        /* CSS 樣式：可愛、彩色圖卡風格 */
+
+        :root {
+
+            --primary-color: #6a0dad; /* 茄紫色 */
+
+            --secondary-color: #ffc107; /* 琥珀黃 */
+
+            --accent-color: #4caf50; /* 綠色 */
+
+            --bg-light: #f3f3f3;
+
+            --card-bg: #ffffff;
+
+            --correct-color: #4CAF50;
+
+            --wrong-color: #F44336;
+
+        }
+
+ 
+
+        body {
+
+            font-family: '微軟正黑體', 'Arial', sans-serif;
+
+            background-color: var(--bg-light);
+
+            color: #333;
+
+            margin: 0;
+
+            padding: 0;
+
+            text-align: center;
+
+        }
+
+ 
+
+        .container {
+
+            max-width: 900px;
+
+            margin: 40px auto;
+
+            padding: 20px;
+
+            background: linear-gradient(135deg, #e0b4ff, #fff); /* 淺紫漸層背景 */
+
+            border-radius: 20px;
+
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+
+        }
+
+ 
+
+        h1 {
+
+            color: var(--primary-color);
+
+            font-size: 2.5em;
+
+            margin-bottom: 5px;
+
+        }
+
+ 
+
+        .header-status {
+
+            display: flex;
+
+            justify-content: space-around;
+
+            background-color: var(--card-bg);
+
+            padding: 10px;
+
+            margin-bottom: 20px;
+
+            border-radius: 15px;
+
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+
+            animation: bounceIn 1s ease-out; /* 簡單動畫 */
+
+        }
+
+ 
+
+        .status-item {
+
+            font-size: 1.2em;
+
+            font-weight: bold;
+
+            color: var(--primary-color);
+
+        }
+
+        .status-item span {
+
+            color: var(--secondary-color);
+
+            margin-left: 5px;
+
+        }
+
+ 
+
+        .question-card {
+
+            background-color: var(--card-bg);
+
+            padding: 30px;
+
+            margin: 20px 0;
+
+            border-radius: 15px;
+
+            box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15);
+
+            transition: transform 0.3s ease-in-out;
+
+        }
+
+ 
+
+        .question-card:hover {
+
+            transform: scale(1.02);
+
+        }
+
+ 
+
+        .question-text {
+
+            font-size: 1.4em;
+
+            margin-bottom: 20px;
+
+            color: var(--primary-color);
+
+            min-height: 80px; /* 確保卡片高度一致 */
+
+        }
+
+ 
+
+        .options button {
+
+            display: block;
+
+            width: 90%;
+
+            margin: 10px auto;
+
+            padding: 15px;
+
+            font-size: 1.1em;
+
+            border: none;
+
+            border-radius: 10px;
+
+            cursor: pointer;
+
+            transition: background-color 0.2s, transform 0.1s;
+
+            background-color: #e3f2fd; /* 淺藍色選項背景 */
+
+            color: #1565c0; /* 深藍色文字 */
+
+            font-weight: 500;
+
+            box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+
+        }
+
+ 
+
+        .options button:hover:not(:disabled) {
+
+            background-color: #bbdefb;
+
+            transform: translateY(-2px);
+
+        }
+
+ 
+
+        .options button:disabled {
+
+            cursor: not-allowed;
+
+            opacity: 0.8;
+
+        }
+
+       
+
+        /* 答題結果樣式 */
+
+        .options button.correct {
+
+            background-color: var(--correct-color);
+
+            color: white;
+
+            box-shadow: 0 5px 10px rgba(76, 175, 80, 0.5);
+
+            animation: pulse 0.5s 3;
+
+        }
+
+        .options button.wrong {
+
+            background-color: var(--wrong-color);
+
+            color: white;
+
+        }
+
+ 
+
+        .explanation {
+
+            margin-top: 20px;
+
+            padding: 15px;
+
+            border-left: 5px solid var(--accent-color);
+
+            background-color: #e8f5e9; /* 淺綠色背景 */
+
+            text-align: left;
+
+            font-size: 1em;
+
+            color: #2e7d32;
+
+            font-style: italic;
+
+            display: none; /* 預設隱藏 */
+
+            animation: fadeIn 0.5s ease-in;
+
+        }
+
+       
+
+        .explanation strong {
+
+            color: var(--primary-color);
+
+        }
+
+ 
+
+        /* 導航按鈕 */
+
+        .nav-buttons {
+
+            margin-top: 30px;
+
+        }
+
+        .nav-buttons button {
+
+            padding: 12px 25px;
+
+            margin: 0 10px;
+
+            border: none;
+
+            border-radius: 8px;
+
+            font-size: 1.1em;
+
+            font-weight: bold;
+
+            cursor: pointer;
+
+            background-color: var(--primary-color);
+
+            color: white;
+
+            transition: background-color 0.2s;
+
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+
+        }
+
+ 
+
+        .nav-buttons button:hover {
+
+            background-color: #9c27b0;
+
+        }
+
+ 
+
+        /* 獎勵區塊 */
+
+        #rewards {
+
+            margin-top: 40px;
+
+            padding: 30px;
+
+            background-color: #fff8e1; /* 暖黃色背景 */
+
+            border-radius: 15px;
+
+            box-shadow: 0 5px 15px rgba(255, 193, 7, 0.3);
+
+        }
+
+        #rewards h2 {
+
+            color: var(--secondary-color);
+
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.1);
+
+        }
+
+        .achievements img {
+
+            width: 80px;
+
+            height: 80px;
+
+            margin: 10px;
+
+            opacity: 0.3;
+
+            transition: opacity 0.5s;
+
+        }
+
+        .achievements img.unlocked {
+
+            opacity: 1;
+
+            filter: drop-shadow(0 0 5px var(--secondary-color));
+
+        }
+
+ 
+
+        /* 小動畫 */
+
+        @keyframes pulse {
+
+            0% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.7); }
+
+            70% { box-shadow: 0 0 0 10px rgba(76, 175, 80, 0); }
+
+            100% { box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+
+        }
+
+        @keyframes bounceIn {
+
+            0% { transform: scale(0.5); opacity: 0; }
+
+            100% { transform: scale(1); opacity: 1; }
+
+        }
+
+        @keyframes fadeIn {
+
+            from { opacity: 0; }
+
+            to { opacity: 1; }
+
+        }
+
+ 
+
+    </style>
+
+</head>
+
+<body>
+
+ 
+
+<div class="container">
+
+    <h1>✨ 國中理化學習挑戰營 ✨</h1>
+
+    <p>一次五題，挑戰你的物理、光學與熱學知識！</p>
+
+ 
+
+    <div class="header-status">
+
+        <div class="status-item">分數：<span id="score">0</span> / 5</div>
+
+        <div class="status-item">點數：<span id="points">0</span> 💰</div>
+
+    </div>
+
+ 
+
+    <div id="quiz-area">
+
+        </div>
+
+ 
+
+    <div class="nav-buttons">
+
+        <button id="prev-btn" style="display: none;">⬅️ 上一題</button>
+
+        <button id="next-btn">下一題 ➡️</button>
+
+        <button id="submit-btn" style="display: none;">✅ 提交本輪作答</button>
+
+        <button id="new-round-btn" style="display: none;">🔄 開始新一輪挑戰</button>
+
+    </div>
+
+ 
+
+    <div id="rewards">
+
+        <h2>🏆 我的成就與獎勵 🏆</h2>
+
+        <p>累積點數 <span id="reward-points">0</span>，快來兌換你的勳章吧！</p>
+
+        <div class="achievements" id="achievement-list">
+
+            <img id="medal-1" src="https://via.placeholder.com/80?text=🥇" alt="新手勳章" title="新手勳章 (需 10 點)">
+
+            <img id="medal-2" src="https://via.placeholder.com/80?text=💡" alt="光學專家" title="光學專家 (需 30 點)">
+
+            <img id="medal-3" src="https://via.placeholder.com/80?text=🔥" alt="熱學大師" title="熱學大師 (需 50 點)">
+
+            <img id="medal-4" src="https://via.placeholder.com/80?text=💯" alt="滿分王者" title="滿分王者 (需 100 點)">
+
+        </div>
+
+        <button id="redeem-btn" style="margin-top: 15px;">🌟 兌換獎勵 (自動)</button>
+
+    </div>
+
+ 
+
+</div>
+
+ 
+
+<script>
+
+    // JavaScript 邏輯：處理題庫、答題、計分與獎勵
+
+   
+
+    // 1. 題庫資料 (使用您提供的範例題目)
+
+    const allQuestions = [
+
+        {
+
+            id: 1,
+
+            q: "在教室裡，老師用手電筒照射三稜鏡，牆上出現一條彩色光帶。這說明了光的何種現象？",
+
+            options: ["折射", "色散", "反射", "漫射"],
+
+            ans: "B",
+
+            exp: "色散是白光通過稜鏡後分解成各種色光的現象。"
+
+        },
+
+        {
+
+            id: 4,
+
+            q: "當紅光與綠光同時照在白布上時，布呈現黃色。請問這說明了哪個現象？",
+
+            options: ["光的分解", "顏色的吸收", "色光混合", "反射與折射"],
+
+            ans: "C",
+
+            exp: "紅光與綠光混合產生黃光，是光的三原色混色結果。"
+
+        },
+
+        {
+
+            id: 8,
+
+            q: "新北市坪林素有茶葉之鄉的美稱，隨處可見綠油油的茶田。則茶田會呈現綠色是因為下列哪一項？",
+
+            options: ["茶田反射綠色光", "茶田吸收綠色光", "茶田折射綠色光", "茶田反射紅光與藍光"],
+
+            ans: "A",
+
+            exp: "綠色不透明物體反射綠光。"
+
+        },
+
+        {
+
+            id: 11,
+
+            q: "有甲、乙、丙三桶水，左手伸入甲桶水中，右手伸入丙桶水中，五分鐘後，兩手同時放入乙桶水中，左手感覺冷，右手感覺熱，則此三桶水中哪一桶水的溫度最高？",
+
+            options: ["甲", "乙", "丙", "一樣高"],
+
+            ans: "A",
+
+            exp: "左手在甲感覺熱，放入乙感覺冷 → 乙＜甲。右手在丙感覺冷，放入乙感覺熱 → 乙＞丙。故溫度大小：甲＞乙＞丙。"
+
+        },
+
+        {
+
+            id: 12,
+
+            q: "姿穎身穿藍衣、白裙在紅光下看起來為什麼顏色？",
+
+            options: ["綠衣、紅裙", "黑衣、紅裙", "黃衣、紅裙", "藍衣、白裙"],
+
+            ans: "B",
+
+            exp: "藍衣吸收紅光，呈現黑色；白裙反射紅光，呈現紅色。"
+
+        },
+
+        {
+
+            id: 25,
+
+            q: "正常人使用之放大鏡為何種透鏡？其性質為何？",
+
+            options: ["凸透鏡，能發散光線", "凸透鏡，能會聚光線", "凹透鏡，能發散光線", "凹透鏡，能會聚光線"],
+
+            ans: "B",
+
+            exp: "放大鏡是凸透鏡，能聚光。"
+
+        },
+
+        {
+
+            id: 31,
+
+            q: "甲大聲唱出 Do 音符，乙小聲唱出同音階中的 Si，則下列敘述何者正確？",
+
+            options: ["甲聲音較大，音調較高", "乙響度較小但音調較高", "甲、乙之音色相同", "乙聲音較高可以傳播較遠"],
+
+            ans: "B",
+
+            exp: "甲聲音大（響度大）；乙音階 Si 較 Do 高（音調高）；響度與音調不影響聲速；不同的人音色不同。"
+
+        },
+
+        {
+
+            id: 42,
+
+            q: "一束平行光射入一薄透鏡，其折射情形如圖所示。將此薄透鏡反轉後，光線的行進路徑為何？",
+
+            image: "placeholder_image_42.png", // 假設有一個圖
+
+            options: ["A", "B", "C", "D"], // 選項代號
+
+            ans: "A",
+
+            exp: "反轉後聚光效果相同，焦距相同。圖示中應是凸透鏡將平行光會聚於焦點，反轉後仍是如此。"
+
+        },
+
+        {
+
+            id: 46,
+
+            q: "小明在沙漠中大喊一聲，此時沙漠的溫度為 35℃，則小明的聲速約為多少公尺／秒？",
+
+            options: ["331 公尺／秒", "340 公尺／秒", "352 公尺／秒", "1500 公尺／秒"],
+
+            ans: "C",
+
+            exp: "聲速 $v = 331 + 0.6 \times T$ (T為攝氏溫度)。 $v = 331 + 0.6 \times 35 = 352$ (公尺/秒)。"
+
+        },
+
+        {
+
+            id: 47,
+
+            q: "未通過鏡心的光線經過透鏡會產生幾次折射？",
+
+            options: ["1", "2", "3", "4"],
+
+            ans: "B",
+
+            exp: "光線先由空氣進入透鏡，產生第 1 次折射；光再由透鏡進入空氣，產生第 2 次折射。"
+
+        }
+
+    ];
+
+ 
+
+    // 2. 遊戲狀態變數
+
+    let currentQuiz = []; // 當前 5 題
+
+    let currentQIndex = 0; // 當前題目索引 (0-4)
+
+    let totalScore = 0; // 累積總分
+
+    let totalPoints = 0; // 累積點數
+
+    let userAnswers = {}; // 儲存使用者本輪答案 {q_id: 'A'}
+
+ 
+
+    // 3. DOM 元素
+
+    const quizArea = document.getElementById('quiz-area');
+
+    const scoreDisplay = document.getElementById('score');
+
+    const pointsDisplay = document.getElementById('points');
+
+    const rewardPointsDisplay = document.getElementById('reward-points');
+
+    const prevBtn = document.getElementById('prev-btn');
+
+    const nextBtn = document.getElementById('next-btn');
+
+    const submitBtn = document.getElementById('submit-btn');
+
+    const newRoundBtn = document.getElementById('new-round-btn');
+
+    const redeemBtn = document.getElementById('redeem-btn');
+
+    const achievementList = document.getElementById('achievement-list');
+
+ 
+
+    // 4. 核心功能
+
+ 
+
+    // 從題庫中隨機選取 5 題
+
+    function generateNewQuiz() {
+
+        const shuffled = allQuestions.sort(() => 0.5 - Math.random());
+
+        currentQuiz = shuffled.slice(0, 5);
+
+        currentQIndex = 0;
+
+        userAnswers = {}; // 重置答案
+
+    }
+
+ 
+
+    // 渲染當前題目
+
+    function renderQuestion(index) {
+
+        if (currentQuiz.length === 0) return;
+
+ 
+
+        const qData = currentQuiz[index];
+
+        const optionsHtml = qData.options.map((opt, i) => {
+
+            const letter = String.fromCharCode(65 + i); // 65 = 'A'
+
+            const isChecked = userAnswers[qData.id] === letter ? ' checked' : '';
+
+            return `<button
+
+                        data-answer="${letter}"
+
+                        data-qid="${qData.id}"
+
+                        onclick="handleAnswerClick(this)"
+
+                        ${isChecked ? 'class="selected"' : ''}>
+
+                        (${letter}) ${opt}
+
+                    </button>`;
+
+        }).join('');
+
+ 
+
+        const cardHtml = `
+
+            <div class="question-card" data-qid="${qData.id}">
+
+                <h2>第 ${index + 1} 題 (總共 5 題)</h2>
+
+                <p class="question-text">${qData.q}</p>
+
+                ${qData.image ? `<img src="${qData.image}" alt="題目圖示" style="max-width: 100%; height: auto; margin-bottom: 15px;">` : ''}
+
+                <div class="options">${optionsHtml}</div>
+
+                <div class="explanation" id="exp-${qData.id}"><strong>💡 解題說明:</strong> ${qData.exp}</div>
+
+            </div>
+
+        `;
+
+        quizArea.innerHTML = cardHtml;
+
+        updateNavButtons();
+
+       
+
+        // 如果已經作答，確保選項狀態正確
+
+        if (userAnswers[qData.id]) {
+
+             const selectedBtn = document.querySelector(`.options button[data-answer="${userAnswers[qData.id]}"]`);
+
+             if (selectedBtn) selectedBtn.classList.add('selected');
+
+        }
+
+    }
+
+ 
+
+    // 處理選項點擊
+
+    function handleAnswerClick(button) {
+
+        const qid = button.dataset.qid;
+
+        const answer = button.dataset.answer;
+
+ 
+
+        // 移除同一個問題的其他選項的 selected class
+
+        document.querySelectorAll(`.options button[data-qid="${qid}"]`).forEach(btn => {
+
+            btn.classList.remove('selected');
+
+        });
+
+ 
+
+        // 設置當前選項
+
+        button.classList.add('selected');
+
+        userAnswers[qid] = answer;
+
+    }
+
+ 
+
+    // 更新導航按鈕狀態
+
+    function updateNavButtons() {
+
+        prevBtn.style.display = currentQIndex > 0 ? 'inline-block' : 'none';
+
+        nextBtn.style.display = currentQIndex < 4 ? 'inline-block' : 'none';
+
+        submitBtn.style.display = currentQIndex === 4 ? 'inline-block' : 'none';
+
+        newRoundBtn.style.display = 'none'; // 預設隱藏
+
+    }
+
+ 
+
+    // 檢查並計算分數
+
+    function checkQuiz() {
+
+        let correctCount = 0;
+
+       
+
+        currentQuiz.forEach(q => {
+
+            const userAnswer = userAnswers[q.id];
+
+            const isCorrect = userAnswer === q.ans;
+
+           
+
+            if (isCorrect) {
+
+                correctCount++;
+
+            }
+
+ 
+
+            // 顯示解題說明和顏色標註
+
+            const explanationElement = document.getElementById(`exp-${q.id}`);
+
+            if (explanationElement) explanationElement.style.display = 'block';
+
+ 
+
+            document.querySelectorAll(`.options button[data-qid="${q.id}"]`).forEach(btn => {
+
+                btn.disabled = true; // 鎖定所有按鈕
+
+                const btnAnswer = btn.dataset.answer;
+
+               
+
+                if (btnAnswer === q.ans) {
+
+                    btn.classList.add('correct');
+
+                } else if (btnAnswer === userAnswer && !isCorrect) {
+
+                    btn.classList.add('wrong');
+
+                }
+
+            });
+
+        });
+
+ 
+
+        const pointsGained = correctCount * 5; // 每題 5 點
+
+       
+
+        // 更新分數和點數
+
+        scoreDisplay.textContent = correctCount;
+
+        totalPoints += pointsGained;
+
+        pointsDisplay.textContent = totalPoints;
+
+        rewardPointsDisplay.textContent = totalPoints;
+
+ 
+
+        // 顯示總結按鈕，隱藏其他
+
+        prevBtn.style.display = 'none';
+
+        nextBtn.style.display = 'none';
+
+        submitBtn.style.display = 'none';
+
+        newRoundBtn.style.display = 'inline-block';
+
+        
+
+        alert(`本輪挑戰結束！你答對了 ${correctCount} 題，獲得 ${pointsGained} 點數！🎉`);
+
+       
+
+        // 檢查並兌換獎勵
+
+        checkRedeemableRewards();
+
+    }
+
+ 
+
+    // 兌換獎勵 (自動或手動)
+
+    function checkRedeemableRewards() {
+
+        const rewards = [
+
+            { id: 'medal-1', cost: 10 },
+
+            { id: 'medal-2', cost: 30 },
+
+            { id: 'medal-3', cost: 50 },
+
+            { id: 'medal-4', cost: 100 }
+
+        ];
+
+ 
+
+        rewards.forEach(reward => {
+
+            const medalElement = document.getElementById(reward.id);
+
+            if (totalPoints >= reward.cost && !medalElement.classList.contains('unlocked')) {
+
+                medalElement.classList.add('unlocked');
+
+                medalElement.title = `${medalElement.alt} (已解鎖)`;
+
+                console.log(`恭喜解鎖：${medalElement.alt}`);
+
+            }
+
+        });
+
+    }
+
+ 
+
+    // 5. 事件監聽
+
+ 
+
+    // 導航按鈕事件
+
+    prevBtn.addEventListener('click', () => {
+
+        if (currentQIndex > 0) {
+
+            currentQIndex--;
+
+            renderQuestion(currentQIndex);
+
+        }
+
+    });
+
+ 
+
+    nextBtn.addEventListener('click', () => {
+
+        if (currentQIndex < 4) {
+
+            currentQIndex++;
+
+            renderQuestion(currentQIndex);
+
+        }
+
+    });
+
+ 
+
+    // 提交按鈕事件
+
+    submitBtn.addEventListener('click', () => {
+
+        // 先確保所有題目都有作答 (可選，這裡簡化為直接提交)
+
+        checkQuiz();
+
+    });
+
+ 
+
+    // 開始新一輪事件
+
+    newRoundBtn.addEventListener('click', () => {
+
+        scoreDisplay.textContent = "0"; // 歸零單輪分數
+
+        startQuiz();
+
+    });
+
+   
+
+    // 獎勵兌換按鈕 (這裡設置為自動檢查，按鈕只是提示作用)
+
+    redeemBtn.addEventListener('click', () => {
+
+        checkRedeemableRewards();
+
+        alert('系統已自動為您檢查可兌換的獎勵！');
+
+    });
+
+ 
+
+ 
+
+    // 6. 啟動測驗
+
+    function startQuiz() {
+
+        generateNewQuiz();
+
+        renderQuestion(currentQIndex);
+
+        // 重置分數顯示
+
+        scoreDisplay.textContent = '0 / 5';
+
+        updateNavButtons();
+
+    }
+
+ 
+
+    // 網頁載入後啟動
+
+    window.onload = startQuiz;
+
+ 
+
+</script>
+
+</body>
+
+</html>
